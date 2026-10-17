@@ -1,0 +1,30 @@
+{
+  "name": "example_crash",
+  "description": "LB 뒤 API 2대 + DB. 10초에 API #2를 죽이고(crash) 15초에 살린다. 오토스케일러 없이 장애 주입만",
+  "seconds": 22,
+  "design": {
+    "name": "example crash",
+    "nodes": [
+      { "id": "users", "kind": "client", "label": "Shoppers", "config": { "rps": 300, "timeoutMs": 1000, "retries": 0 } },
+      { "id": "lb", "kind": "lb", "label": "LB", "config": { "capacity": 256, "serviceMs": 0.5, "serviceCv": 0.2, "queueLimit": 1024 } },
+      { "id": "api1", "kind": "service", "label": "Order API #1", "config": { "capacity": 8, "serviceMs": 25, "serviceCv": 0.6, "queueLimit": 64 } },
+      { "id": "api2", "kind": "service", "label": "Order API #2", "config": { "capacity": 8, "serviceMs": 25, "serviceCv": 0.6, "queueLimit": 64 } },
+      { "id": "db", "kind": "db", "label": "Orders DB", "config": { "capacity": 32, "serviceMs": 10, "serviceCv": 0.7, "queueLimit": 64, "lockMs": 0 } }
+    ],
+    "edges": [
+      { "from": "users", "to": "lb" },
+      { "from": "lb", "to": "api1" }, { "from": "lb", "to": "api2" },
+      { "from": "api1", "to": "db" }, { "from": "api2", "to": "db" }
+    ]
+  },
+  "specs": {
+    "lb":   { "product": "ALB (관리형)", "managed": true },
+    "api1": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.4, "memBaseMiB": 900, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "api2": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.4, "memBaseMiB": 900, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "db":   { "product": "db.m6g.large", "vcpu": 2, "memMiB": 8192, "memBaseMiB": 5600, "memPerInflightMiB": 16, "memPerQueuedMiB": 1 }
+  },
+  "timeline": [
+    { "at": 10, "fault": { "node": "api2", "kind": "crash" } },
+    { "at": 15, "clear": "api2" }
+  ]
+}

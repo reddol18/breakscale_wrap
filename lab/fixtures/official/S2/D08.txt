@@ -1,0 +1,15 @@
+Simulated 30s with seed 1.
+Offered 383/s, served 303/s, 20.9% failed. Latency p50 22ms, p95 53ms, p99 67ms.
+Failed requests over the run: 2694 were refused by a rate limiter.
+
+Components (busiest first):
+- Issue worker (worker, id 'worker'): 154/s in, 63.3/s done, 100.0% busy, p99 220ms
+- Coupon DB (db, id 'db'): 154/s in, 63.3/s done, 100.0% busy, 32 waiting, p99 160ms, 59.0% failed, 91.1/s turned away
+- Coupon API #1 (service, id 'api1'): 154/s in, 154/s done, 49.0% busy, p99 76ms
+- Coupon API #2 (service, id 'api2'): 148/s in, 149/s done, 41.8% busy, p99 64ms
+- LB (lb, id 'lb'): 303/s in, 303/s done, 0.05% busy, p99 68ms
+- Rate limiter (ratelimiter, id 'limiter'): 383/s in, 303/s done, p99 68ms, 20.9% failed
+
+Link to the design, which opens it on breakscale.tech: https://breakscale.tech/#d3.AePgYGAIeMDI75xfWpCfp5BRmleSWlTM5Mr1gOUBI29QYkmqQk5mbmZJahGbqSnjB44HjMw-TgxMDbwBfFAtjgGeCsqGIKEHTChiRgysEwQfMPJ4FheXpioUlqaWpjKwLRB9wMgLESnPL8pOLWJg2SD5gJELqtHFiUmQgYmRhYmNiYOZi4WLlYeNDwA
+
+A changed design can be shown by passing the whole updated design to create_view; keeping the node ids keeps the layout stable. Edits the user makes on the canvas are reported back as context.

@@ -1,0 +1,15 @@
+# upstream clone, pinned in vendor/VERSION.md (fetched by lab/setup.mjs)
+vendor/breakscale/
+node_modules/
+# webm copies of recordings (mp4 is kept)
+*.webm
+# local-only notes and early experiment artifacts
+_internal/
+CLAUDE.local.md
+.claude/logs/
+.claude/settings.local.json
+__pycache__/
+# vite dev-server cache (lab/viz)
+.vite/
+# frame captures left by an interrupted lab/viz/record.mjs
+_frames_*/

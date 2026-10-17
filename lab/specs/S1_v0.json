@@ -1,0 +1,36 @@
+{
+  "_note": "S1 v0 설계에 붙이는 하드웨어 사양(가상 배치). 엔진은 이 값을 읽지 않는다. 화면 표시와 lab 모델(CPU·메모리 추정)에만 쓴다.",
+  "nodes": {
+    "lb": {
+      "product": "AWS ALB (관리형)",
+      "managed": true
+    },
+    "api1": {
+      "product": "AWS c6i.large",
+      "vcpu": 2,
+      "memMiB": 4096,
+      "cpuPerReq": 0.4,
+      "memBaseMiB": 900,
+      "memPerInflightMiB": 24,
+      "memPerQueuedMiB": 2
+    },
+    "api2": {
+      "product": "AWS c6i.large",
+      "vcpu": 2,
+      "memMiB": 4096,
+      "cpuPerReq": 0.4,
+      "memBaseMiB": 900,
+      "memPerInflightMiB": 24,
+      "memPerQueuedMiB": 2
+    },
+    "db": {
+      "product": "AWS db.m6g.large",
+      "vcpu": 2,
+      "memMiB": 8192,
+      "cpuPerReq": 0.3,
+      "memBaseMiB": 5600,
+      "memPerInflightMiB": 16,
+      "memPerQueuedMiB": 1
+    }
+  }
+}

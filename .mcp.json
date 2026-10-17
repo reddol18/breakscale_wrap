@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "breakscale": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["vendor/breakscale/mcp/dist/index.js", "--stdio"]
+    }
+  }
+}

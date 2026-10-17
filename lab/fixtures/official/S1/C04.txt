@@ -1,0 +1,13 @@
+Simulated 30s with seed 1.
+Offered 3018/s, served 189/s, 93.7% failed. Latency p50 428ms, p95 488ms, p99 518ms.
+Failed requests over the run: 83883 were turned away by a full queue.
+
+Components (busiest first):
+- Order API #1 (service, id 'api1'): 2694/s in, 94.4/s done, 100.0% busy, 64 waiting, p99 120ms, 96.2% failed, 2369/s turned away
+- Order API #2 (service, id 'api2'): 322/s in, 94.4/s done, 100.0% busy, 64 waiting, p99 122ms
+- Orders DB (db, id 'db'): 648/s in, 189/s done, 100.0% busy, 32 waiting, p99 95ms, 70.8% failed, 459/s turned away
+- LB (lb, id 'lb'): 3018/s in, 189/s done, 0.58% busy, p99 133ms
+
+Link to the design, which opens it on breakscale.tech: https://breakscale.tech/#d3.AWNlZWAIeMDIGZyRX1CQWlTMZMb4gOUBI7OPEwPTB44AXv-ilNQiBccATwVlQ5DIAyZkISMGlgbeB4xcYKFiBRcnBgYmRhZGNiYOZg4A
+
+A changed design can be shown by passing the whole updated design to create_view; keeping the node ids keeps the layout stable. Edits the user makes on the canvas are reported back as context.

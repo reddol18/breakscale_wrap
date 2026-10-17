@@ -1,0 +1,13 @@
+Simulated 30s with seed 1.
+Offered 38.9/s, served 38.9/s, 0.0% failed. Latency p50 23ms, p95 59ms, p99 82ms.
+
+Components (busiest first):
+- Coupon DB (db, id 'db'): 38.9/s in, 38.9/s done, 36.0% busy, p99 157ms
+- Issue worker (worker, id 'worker'): 38.9/s in, 38.9/s done, 20.2% busy, p99 181ms
+- Coupon API #1 (service, id 'api1'): 24.4/s in, 24.4/s done, 6.4% busy, p99 79ms
+- Coupon API #2 (service, id 'api2'): 14.4/s in, 14.4/s done, 5.1% busy, p99 79ms
+- LB (lb, id 'lb'): 38.9/s in, 38.9/s done, 0.00% busy, p99 83ms
+
+Link to the design, which opens it on breakscale.tech: https://breakscale.tech/#d3.AePgYGAIeMDI75xfWpCfp5BRmleSWlTM1MDK9YDlASNvUGJJqkJOZm5mSWoRm6kp4weOB4zMPk4MTA28AXxQPY4BngrKhiChB0woYkYMrBMEHzDyeBYXl6YqFJamlqYysC0QfcDICxEpzy_KTi1iYNkg-YCRC6rRxYlJkIGJkYWJjYmDmYuFi5WHjQ8A
+
+A changed design can be shown by passing the whole updated design to create_view; keeping the node ids keeps the layout stable. Edits the user makes on the canvas are reported back as context.

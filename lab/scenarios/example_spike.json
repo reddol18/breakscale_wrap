@@ -1,0 +1,49 @@
+{
+  "name": "example_spike",
+  "description": "VM 2대로 시작, 8초에 트래픽 3배 급증, 40초에 원래대로. 자체 오토스케일러(최대 6대)",
+  "seconds": 70,
+  "design": {
+    "name": "example spike",
+    "nodes": [
+      { "id": "users", "kind": "client", "label": "Users", "x": 0, "y": 220, "config": { "rps": 240, "timeoutMs": 2000, "retries": 0 } },
+      { "id": "lb", "kind": "lb", "label": "LB", "x": 330, "y": 220, "config": { "capacity": 4096, "serviceMs": 0.5, "serviceCv": 0.2, "queueLimit": 8192 } },
+      { "id": "vm1", "kind": "service", "label": "API VM #1", "x": 700, "y": 0, "config": { "capacity": 16, "serviceMs": 20, "serviceCv": 0.5, "queueLimit": 100, "timeoutMs": 0, "retries": 0 } },
+      { "id": "vm2", "kind": "service", "label": "API VM #2", "x": 1050, "y": 0, "config": { "capacity": 16, "serviceMs": 20, "serviceCv": 0.5, "queueLimit": 100, "timeoutMs": 0, "retries": 0 } },
+      { "id": "vm3", "kind": "service", "label": "API VM #3", "x": 1400, "y": 0, "config": { "capacity": 16, "serviceMs": 20, "serviceCv": 0.5, "queueLimit": 100, "timeoutMs": 0, "retries": 0 } },
+      { "id": "vm4", "kind": "service", "label": "API VM #4", "x": 700, "y": 440, "config": { "capacity": 16, "serviceMs": 20, "serviceCv": 0.5, "queueLimit": 100, "timeoutMs": 0, "retries": 0 } },
+      { "id": "vm5", "kind": "service", "label": "API VM #5", "x": 1050, "y": 440, "config": { "capacity": 16, "serviceMs": 20, "serviceCv": 0.5, "queueLimit": 100, "timeoutMs": 0, "retries": 0 } },
+      { "id": "vm6", "kind": "service", "label": "API VM #6", "x": 1400, "y": 440, "config": { "capacity": 16, "serviceMs": 20, "serviceCv": 0.5, "queueLimit": 100, "timeoutMs": 0, "retries": 0 } }
+    ],
+    "edges": [
+      { "from": "users", "to": "lb" },
+      { "from": "lb", "to": "vm1" }, { "from": "lb", "to": "vm2" }, { "from": "lb", "to": "vm3" },
+      { "from": "lb", "to": "vm4" }, { "from": "lb", "to": "vm5" }, { "from": "lb", "to": "vm6" }
+    ]
+  },
+  "specs": {
+    "lb":  { "product": "ALB (관리형)", "managed": true },
+    "vm1": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.5, "memBaseMiB": 1000, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "vm2": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.5, "memBaseMiB": 1000, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "vm3": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.5, "memBaseMiB": 1000, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "vm4": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.5, "memBaseMiB": 1000, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "vm5": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.5, "memBaseMiB": 1000, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 },
+    "vm6": { "product": "c6i.large", "vcpu": 2, "memMiB": 4096, "cpuPerReq": 0.5, "memBaseMiB": 1000, "memPerInflightMiB": 24, "memPerQueuedMiB": 2 }
+  },
+  "fleet": {
+    "lb": "lb",
+    "vms": ["vm1", "vm2", "vm3", "vm4", "vm5", "vm6"],
+    "initial": 2,
+    "bootMs": 5000,
+    "warmupMs": 3000,
+    "warmupFactor": 2,
+    "drainMs": 2000,
+    "failOpen": true,
+    "health": { "intervalMs": 1000, "timeoutMs": 500, "unhealthyThreshold": 3, "healthyThreshold": 2, "path": "queued" },
+    "recovery": { "mode": "process", "restartMs": 3000, "backoffBaseMs": 2000, "backoffMaxMs": 30000, "backoffResetMs": 20000, "replaceBootMs": 6000 },
+    "scaling": { "metric": "cpu", "target": 0.6, "tolerance": 0.1, "min": 2, "max": 6, "metricWindowMs": 5000, "scaleOutCooldownMs": 3000, "scaleInStabilizationMs": 10000, "scaleInPick": "oldest" }
+  },
+  "timeline": [
+    { "at": 8,  "set": { "users": { "rps": 700 } } },
+    { "at": 40, "set": { "users": { "rps": 240 } } }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+ "name": "v0 순간 폭주 spike",
+ "nodes": [
+  {
+   "id": "users",
+   "kind": "client",
+   "label": "Coupon hunters",
+   "config": {
+    "rps": 40,
+    "timeoutMs": 1000,
+    "traffic": "spike",
+    "trafficPeriodS": 30
+   }
+  },
+  {
+   "id": "lb",
+   "kind": "lb",
+   "label": "LB"
+  },
+  {
+   "id": "api1",
+   "kind": "service",
+   "label": "Coupon API #1"
+  },
+  {
+   "id": "api2",
+   "kind": "service",
+   "label": "Coupon API #2"
+  },
+  {
+   "id": "db",
+   "kind": "db",
+   "label": "Coupon DB",
+   "config": {
+    "readFraction": 0.1
+   }
+  }
+ ],
+ "edges": [
+  {
+   "from": "users",
+   "to": "lb"
+  },
+  {
+   "from": "lb",
+   "to": "api1"
+  },
+  {
+   "from": "lb",
+   "to": "api2"
+  },
+  {
+   "from": "api1",
+   "to": "db"
+  },
+  {
+   "from": "api2",
+   "to": "db"
+  }
+ ]
+}

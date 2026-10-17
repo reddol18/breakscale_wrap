@@ -1,0 +1,143 @@
+{
+ "name": "v0 @ 3000 rps",
+ "nodes": [
+  {
+   "id": "users",
+   "kind": "client",
+   "label": "Shoppers",
+   "config": {
+    "instances": 1,
+    "replicaCount": 3,
+    "replicationLagMs": 50,
+    "readFraction": 0.9,
+    "shardCount": 4,
+    "shardCapacity": 4,
+    "hotKeyFraction": 0,
+    "capacity": 1,
+    "serviceMs": 0,
+    "serviceCv": 0,
+    "queueLimit": 0,
+    "hitRate": 0,
+    "errorRate": 0,
+    "timeoutMs": 1000,
+    "retries": 0,
+    "rps": 3000
+   }
+  },
+  {
+   "id": "lb",
+   "kind": "lb",
+   "label": "LB",
+   "config": {
+    "instances": 1,
+    "replicaCount": 3,
+    "replicationLagMs": 50,
+    "readFraction": 0.9,
+    "shardCount": 4,
+    "shardCapacity": 4,
+    "hotKeyFraction": 0,
+    "capacity": 256,
+    "serviceMs": 0.5,
+    "serviceCv": 0.2,
+    "queueLimit": 1024,
+    "hitRate": 0,
+    "errorRate": 0,
+    "timeoutMs": 0,
+    "retries": 0,
+    "rps": 0
+   }
+  },
+  {
+   "id": "api1",
+   "kind": "service",
+   "label": "Order API #1",
+   "config": {
+    "instances": 1,
+    "replicaCount": 3,
+    "replicationLagMs": 50,
+    "readFraction": 0.9,
+    "shardCount": 4,
+    "shardCapacity": 4,
+    "hotKeyFraction": 0,
+    "capacity": 8,
+    "serviceMs": 25,
+    "serviceCv": 0.6,
+    "queueLimit": 64,
+    "hitRate": 0,
+    "errorRate": 0,
+    "timeoutMs": 0,
+    "retries": 0,
+    "rps": 0
+   }
+  },
+  {
+   "id": "api2",
+   "kind": "service",
+   "label": "Order API #2",
+   "config": {
+    "instances": 1,
+    "replicaCount": 3,
+    "replicationLagMs": 50,
+    "readFraction": 0.9,
+    "shardCount": 4,
+    "shardCapacity": 4,
+    "hotKeyFraction": 0,
+    "capacity": 8,
+    "serviceMs": 25,
+    "serviceCv": 0.6,
+    "queueLimit": 64,
+    "hitRate": 0,
+    "errorRate": 0,
+    "timeoutMs": 0,
+    "retries": 0,
+    "rps": 0
+   }
+  },
+  {
+   "id": "db",
+   "kind": "db",
+   "label": "Orders DB",
+   "config": {
+    "instances": 1,
+    "replicaCount": 3,
+    "replicationLagMs": 50,
+    "readFraction": 0.9,
+    "shardCount": 4,
+    "shardCapacity": 4,
+    "hotKeyFraction": 0,
+    "capacity": 6,
+    "serviceMs": 30,
+    "serviceCv": 0.7,
+    "queueLimit": 32,
+    "hitRate": 0,
+    "errorRate": 0,
+    "timeoutMs": 0,
+    "retries": 0,
+    "rps": 0,
+    "lockMs": 15
+   }
+  }
+ ],
+ "edges": [
+  {
+   "from": "users",
+   "to": "lb"
+  },
+  {
+   "from": "lb",
+   "to": "api1"
+  },
+  {
+   "from": "lb",
+   "to": "api2"
+  },
+  {
+   "from": "api1",
+   "to": "db"
+  },
+  {
+   "from": "api2",
+   "to": "db"
+  }
+ ]
+}

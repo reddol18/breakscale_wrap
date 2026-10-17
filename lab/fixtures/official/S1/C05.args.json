@@ -1,0 +1,68 @@
+{
+ "name": "v1 cache @ 100 rps",
+ "nodes": [
+  {
+   "id": "users",
+   "kind": "client",
+   "label": "Shoppers",
+   "config": {
+    "rps": 100,
+    "timeoutMs": 1000
+   }
+  },
+  {
+   "id": "lb",
+   "kind": "lb",
+   "label": "LB"
+  },
+  {
+   "id": "api1",
+   "kind": "service",
+   "label": "Order API #1"
+  },
+  {
+   "id": "api2",
+   "kind": "service",
+   "label": "Order API #2"
+  },
+  {
+   "id": "cache",
+   "kind": "cache",
+   "label": "Order Cache",
+   "config": {
+    "hitRate": 0.8
+   }
+  },
+  {
+   "id": "db",
+   "kind": "db",
+   "label": "Orders DB"
+  }
+ ],
+ "edges": [
+  {
+   "from": "users",
+   "to": "lb"
+  },
+  {
+   "from": "lb",
+   "to": "api1"
+  },
+  {
+   "from": "lb",
+   "to": "api2"
+  },
+  {
+   "from": "api1",
+   "to": "cache"
+  },
+  {
+   "from": "api2",
+   "to": "cache"
+  },
+  {
+   "from": "cache",
+   "to": "db"
+  }
+ ]
+}

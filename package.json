@@ -1,0 +1,16 @@
+{
+  "name": "breakscale-wrap",
+  "private": true,
+  "type": "module",
+  "description": "VM-level CPU, partial OOM and autoscaling models around an unmodified Breakscale",
+  "license": "MIT",
+  "scripts": {
+    "setup": "node lab/setup.mjs",
+    "regress": "bun lab/regress.ts",
+    "verify": "bun lab/regress.ts && bun lab/verify_cpu.ts && bun lab/verify_oom.ts && bun lab/verify_fleet.ts",
+    "viz": "node lab/viz/serve.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.56.1"
+  }
+}
